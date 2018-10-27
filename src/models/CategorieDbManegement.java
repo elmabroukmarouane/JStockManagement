@@ -8,21 +8,21 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
-public class UserDbManagement {
-	public Vector<User> listUsers(){
+public class CategorieDbManegement {
+	public Vector<Categorie> listCategories(){
 		
-		Vector<User> Liste_Users_All = new Vector<User>();
+		Vector<Categorie> Liste_Categories_All = new Vector<Categorie>();
 		Connexion.ouvrir_Connexion(
 				"jdbc:mysql://localhost:3306/jstock_management", "root", "");
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps = null;
 		try {
 			ps = connexion
-					.prepareStatement("SELECT * FROM users");
+					.prepareStatement("SELECT * FROM Categories");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"));
-				Liste_Users_All.add(user);
+				Categorie categorie = new Categorie(rs.getInt("id"), rs.getString("name"));
+				Liste_Categories_All.add(categorie);
 			}
 			ps.close();
 			Connexion.fermer_Connexion();
@@ -30,19 +30,17 @@ public class UserDbManagement {
 			e.printStackTrace();
 		}
 		
-		return Liste_Users_All;
+		return Liste_Categories_All;
 		
 	}
 	
-	public void addUser(String name, String email, String password) {
+	public void addCategorie(String name) {
 		Connexion.ouvrir_Connexion("jdbc:mysql://localhost:3306/jstock_management", "root", "");
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("INSERT INTO users VALUES (null, ?, ?, ?)");
+			ps = connexion.prepareStatement("INSERT INTO categories VALUES (null, ?)");
 			ps.setString(1, name);
-			ps.setString(2, email);
-			ps.setString(3, password);
 			int nb_data = ps.executeUpdate();
 			if(nb_data > 0){
 				JOptionPane.showMessageDialog(null, "Record added successfully !", "Add Informations !", JOptionPane.INFORMATION_MESSAGE);
@@ -56,16 +54,14 @@ public class UserDbManagement {
 		}
 	}
 
-	public void updateUser(int id, String name, String email, String password) {
+	public void updateCategorie(int id, String name) {
 		Connexion.ouvrir_Connexion("jdbc:mysql://localhost:3306/jstock_management", "root", "");
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?");
+			ps = connexion.prepareStatement("UPDATE categories SET name = ? WHERE id = ?");
 			ps.setString(1, name);
-			ps.setString(2, email);
-			ps.setString(3, password);
-			ps.setInt(4, id);		
+			ps.setInt(2, id);		
 			int nb_data = ps.executeUpdate();
 			if(nb_data > 0){
 				JOptionPane.showMessageDialog(null, "Record updated successfully !", "Update Informations !", JOptionPane.INFORMATION_MESSAGE);
@@ -79,12 +75,12 @@ public class UserDbManagement {
 		}
 	}
 
-	public void deleteUser(int id) {
+	public void deleteCategorie(int id) {
 		Connexion.ouvrir_Connexion("jdbc:mysql://localhost:3306/jstock_management", "root", "");
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("DELETE FROM users WHERE id = ?");
+			ps = connexion.prepareStatement("DELETE FROM categories WHERE id = ?");
 			ps.setInt(1, id);
 			int nb_data = ps.executeUpdate();
 			if(nb_data > 0){
@@ -99,23 +95,23 @@ public class UserDbManagement {
 		}
 	}
 	
-	public Vector<User> searchUser(String name) {
-		Vector<User> searchUsersList = new Vector<User>();
+	public Vector<Categorie> searchCategorie(String name) {
+		Vector<Categorie> searchCategoriesList = new Vector<Categorie>();
 		Connexion.ouvrir_Connexion("jdbc:mysql://localhost:3306/jstock_management", "root", "");
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("SELECT * FROM users WHERE name like %'?'%");
+			ps = connexion.prepareStatement("SELECT * FROM categories WHERE name like %'?'%");
 			ps.setString(1, name);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				searchUsersList.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				searchCategoriesList.add(new Categorie(rs.getInt("id"), rs.getString("name")));
 			}
 			ps.close();
 			Connexion.fermer_Connexion();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return searchUsersList;
+		return searchCategoriesList;
 	}
 }
