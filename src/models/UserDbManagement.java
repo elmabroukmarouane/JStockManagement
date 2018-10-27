@@ -21,8 +21,7 @@ public class UserDbManagement {
 					.prepareStatement("SELECT * FROM users");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"));
-				Liste_Users_All.add(user);
+				Liste_Users_All.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password")));
 			}
 			ps.close();
 			Connexion.fermer_Connexion();
