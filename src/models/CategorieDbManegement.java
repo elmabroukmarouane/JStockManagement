@@ -18,7 +18,7 @@ public class CategorieDbManegement {
 		PreparedStatement ps = null;
 		try {
 			ps = connexion
-					.prepareStatement("SELECT * FROM Categories");
+					.prepareStatement("SELECT * FROM Categories ORDER BY id DESC");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Liste_Categories_All.add(new Categorie(rs.getInt("id"), rs.getString("name")));
@@ -100,8 +100,8 @@ public class CategorieDbManegement {
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("SELECT * FROM categories WHERE name like %'?'%");
-			ps.setString(1, name);
+			ps = connexion.prepareStatement("SELECT * FROM categories WHERE name like ? ORDER BY id DESC");
+			ps.setString(1, '%' + name + '%');
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				searchCategoriesList.add(new Categorie(rs.getInt("id"), rs.getString("name")));

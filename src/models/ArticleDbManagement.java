@@ -13,12 +13,12 @@ public class ArticleDbManagement {
 		
 		Vector<Article> Liste_Articles_All = new Vector<Article>();
 		Connexion.ouvrir_Connexion(
-				"jdbc:mysql://localhost:3306/wsn_data_class", "root", "");
+				"jdbc:mysql://localhost:3306/jstock_management", "root", "");
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps = null;
 		try {
 			ps = connexion
-					.prepareStatement("SELECT * FROM articles");
+					.prepareStatement("SELECT * FROM articles ORDER BY id DESC");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Article article = new Article(rs.getInt("id"), rs.getInt("category_id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("qte"));
@@ -35,7 +35,7 @@ public class ArticleDbManagement {
 	}
 	
 	public void addArticle(int category_id, String name, float price, int qte) {
-		Connexion.ouvrir_Connexion("jdbc:mysql://localhost:3306/wsn_data_class", "root", "");
+		Connexion.ouvrir_Connexion("jdbc:mysql://localhost:3306/jstock_management", "root", "");
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
@@ -107,7 +107,7 @@ public class ArticleDbManagement {
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("SELECT * FROM articles WHERE name like %'?'%");
+			ps = connexion.prepareStatement("SELECT * FROM articles WHERE name like %'?'% ORDER BY id DESC");
 			ps.setString(1, name);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
