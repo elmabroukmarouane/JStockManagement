@@ -107,8 +107,8 @@ public class ArticleDbManagement {
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("SELECT * FROM articles WHERE name like %'?'% ORDER BY id DESC");
-			ps.setString(1, name);
+			ps = connexion.prepareStatement("SELECT * FROM articles WHERE name like ? ORDER BY id DESC");
+			ps.setString(1, '%' + name + '%');
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				Liste_Article_Rech.add(new Article(rs.getInt("id"), rs.getInt("category_id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("qte")));

@@ -56,6 +56,7 @@ public class Articles extends javax.swing.JFrame {
 		for (Categorie categorie : categoriesList) {
 			categoryIdCbx.addItem(String.valueOf(categorie.getId()));
 		}
+		categoryIdCbx.setSelectedItem("1");
 	}
 
 	public void showSearch() {
@@ -97,7 +98,10 @@ public class Articles extends javax.swing.JFrame {
 
 	public void clearTxtFunction() {
 		articleIdTxt.setText("");
+		categoryIdCbx.setSelectedItem("1");
 		articleNameTxt.setText("");
+		priceTxt.setText("");
+		quantityTxt.setText("");
 		update = false;
 		saveBtn.setText("Save");
 	}
@@ -117,10 +121,9 @@ public class Articles extends javax.swing.JFrame {
 	}
 
 	public void saveFunction() {
-		if (!articleNameTxt.getText().equals("")) {
+		if (!articleNameTxt.getText().equals("") && !priceTxt.getText().equals("") && !quantityTxt.getText().equals("")) {
 			ArticleDbManegement.addArticle(Integer
-					.parseInt((String) categoryIdCbx.getSelectedItem()
-							.toString()), articleNameTxt.getText(), Float
+					.parseInt((String) categoryIdCbx.getSelectedItem()), articleNameTxt.getText(), Float
 					.parseFloat(priceTxt.getText()), Integer
 					.parseInt(quantityTxt.getText()));
 			refresh();
@@ -135,8 +138,14 @@ public class Articles extends javax.swing.JFrame {
 		int ligneSelectionne = ArticlesTable.getSelectedRow();
 		articleIdTxt.setText(String.valueOf(ArticlesTable.getValueAt(
 				ligneSelectionne, 0)));
-		articleNameTxt.setText(String.valueOf(ArticlesTable.getValueAt(
+		categoryIdCbx.setSelectedItem(String.valueOf(ArticlesTable.getValueAt(
 				ligneSelectionne, 1)));
+		articleNameTxt.setText(String.valueOf(ArticlesTable.getValueAt(
+				ligneSelectionne, 2)));
+		priceTxt.setText(String.valueOf(ArticlesTable.getValueAt(
+				ligneSelectionne, 3)));
+		quantityTxt.setText(String.valueOf(ArticlesTable.getValueAt(
+				ligneSelectionne, 4)));
 		update = true;
 		saveBtn.setText("Update");
 	}
@@ -150,11 +159,11 @@ public class Articles extends javax.swing.JFrame {
 	}
 
 	public void updateFunction() {
-		if (!articleNameTxt.getText().equals("")
+		if (!articleNameTxt.getText().equals("") && !priceTxt.getText().equals("") && !quantityTxt.getText().equals("")
 				&& !articleIdTxt.getText().equals("")) {
 			ArticleDbManegement.updateArticle(Integer.parseInt(articleIdTxt
 					.getText()), Integer.parseInt((String) categoryIdCbx
-					.getSelectedItem().toString()), articleNameTxt.getText(),
+					.getSelectedItem()), articleNameTxt.getText(),
 					Float.parseFloat(priceTxt.getText()), Integer
 							.parseInt(quantityTxt.getText()));
 			refresh();
@@ -185,7 +194,7 @@ public class Articles extends javax.swing.JFrame {
 	}
 
 	public void deleteFunction() {
-		if (!articleNameTxt.getText().equals("")
+		if (!articleNameTxt.getText().equals("") && !priceTxt.getText().equals("") && !quantityTxt.getText().equals("")
 				&& !articleIdTxt.getText().equals("")) {
 			ArticleDbManegement.deleteArticle(Integer.parseInt(articleIdTxt
 					.getText()));
