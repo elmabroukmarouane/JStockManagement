@@ -37,6 +37,10 @@ public class Home extends javax.swing.JFrame {
 		homeManagement.articlesManagement(articlesListMenu);
 	}
 
+	public void usersManagement() {
+		homeManagement.usersManagement(usersListMenu);
+	}
+
 	public void about() {
 		homeManagement.about(subAboutMenu);
 	}
@@ -46,6 +50,7 @@ public class Home extends javax.swing.JFrame {
 		exitApp();
 		categoriesManagement();
 		articlesManagement();
+		usersManagement();
 		about();
 	}
 

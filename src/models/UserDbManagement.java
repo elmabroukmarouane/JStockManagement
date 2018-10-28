@@ -18,7 +18,7 @@ public class UserDbManagement {
 		PreparedStatement ps = null;
 		try {
 			ps = connexion
-					.prepareStatement("SELECT * FROM users");
+					.prepareStatement("SELECT * FROM users ORDER BY id DESC");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Liste_Users_All.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password")));
@@ -104,8 +104,8 @@ public class UserDbManagement {
 		Connection connexion = Connexion.getConn();
 		PreparedStatement ps=null;
 		try {
-			ps = connexion.prepareStatement("SELECT * FROM users WHERE name like %'?'%");
-			ps.setString(1, name);
+			ps = connexion.prepareStatement("SELECT * FROM users WHERE name like ? ORDER BY id DESC");
+			ps.setString(1, '%' + name + '%');
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				searchUsersList.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password")));

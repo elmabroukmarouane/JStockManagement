@@ -42,6 +42,15 @@ public class HomeManagement {
 		});
 	}
 
+	public void usersManagement(JMenuItem item){
+		item.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new views.Users().setVisible(true);
+			}
+		});
+	}
+
 	public void about(JMenuItem item){
 		item.addActionListener(new ActionListener() {
 			@Override
